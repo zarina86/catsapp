@@ -1,0 +1,48 @@
+<h1>Cats</h1>
+
+<%= search_form_for @q, html: { "data-controller": "filters", "data-turbo-frame": "table"} do |f| %> 
+   <div>
+     <%= f.label :color_cont %>
+     <%= f.search_field :color_cont, "data-action": "filters#submit" %>
+   </div>
+ 
+   <div>
+     <%= f.label :breed_cont %>
+     <%= f.search_field :breed_cont, "data-action": "filters#submit" %>
+   </div>
+<% end %>
+
+<%= turbo_frame_tag "table" do%> 
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col"><%= sort_link(@q, :name) %></th>
+        <th scope="col"><%= sort_link(@q, :color) %></th>
+        <th scope="col"><%= sort_link(@q, :breed) %></th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @cats.each do |cat| %>
+  
+ 
+      <tr>
+        <td><%= cat.id %></td>
+        <td><%= cat.name %></td>
+        <td><%= cat.color %></td>
+        <td><%= cat.breed %></td>
+      </tr>
+    
+    <% end %>
+   
+    </tbody>
+  </table>
+
+  <%= raw pagy_nav(@pagy) %>
+
+<% end %>
+
+<%= content_tag(:div, "",
+id:"app", data: {
+   controller: "react"
+})%>
